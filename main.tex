@@ -523,6 +523,10 @@ The algorithm for SEIR model is implemented in libspatialSEIR
 
 \subsection{Verification}
 
+We have conducted a simple experiment on our model training program to test the functionality of model building algorithm and the model its self. As shown in Figure \ref{GuineaVerification}, Figure \ref{LiberiaVerification} and Figure \ref{SierraLeoneVerification}, data point before predicted line is given to the program and the model. Then only the initial data is given to the trained model. All the data point shown in the figure is produced by the model. In general, the verification showed excellent accuracy.
+
+Interestingly, those figures also showed that human intervention is also fundamental to disease prediction. The increase of medical condition in West Africa force the disease to decrease at the end of 2014, whose showed no sign before October. As a result, some error is acceptable.
+
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=5in]{"Guinea Verification".pdf}}
 \caption{Verification of model (Guinea)}
@@ -570,7 +574,7 @@ As shown in Figure \ref{GuineaPrediction}, Figure \ref{LiberiaPrediction} and \r
 
 %%
 
-This study also shown that the disease is controlled greatly due to the help from newly built treatment center.
+This study also shown that the disease is controlled greatly due to the help from newly built treatment center. The Figure \ref{GuineaPrediction2}, Figure \ref{LiberiaPrediction2} and Figure \ref{SierraLeonePrediction2} showed that in the late 2014 and early 2015, the new patient each week is decreased dramatically. We assume that this is because of the well isolation performed by medical staff.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=5in]{"Guinea Prediction(num)".pdf}}
@@ -590,16 +594,39 @@ This study also shown that the disease is controlled greatly due to the help fro
 \label{SierraLeonePrediction2}
 \end{figure}
 
-\subsection{Isolation?}
+%\subsection{Isolation?}
 
 \subsection{Medication}
 
+\subsubsection{Amount}
+
+One of the most basic problems that the WMA might concern would be the amount of medicines, including drugs and vaccines. As the association's goal is to distribute the medications efficiently and effectively, as well as to save as many human lives as possible, it'll be great to produce as many medicines as possible, but it is more practical to produce medicine according to the amount of patients.
+
+\begin{table}[htbp]
+\centerline{
+    \begin{tabular}{llll}
+    Date    & Guinea & Liberia & Sierra Leone \\
+    2015-04 & 461    & 234     & 674          \\
+    2015-06 & 179    & 81      & 290          \\
+    2015-08 & 63     & 31      & 121          \\
+    sum     & 703    & 346     & 1085         \\
+    \end{tabular}
+    }
+    \caption{Amount of patient each 2 months (predicted)}
+    \label{SierraLeonePredictionTable}
+\end{table}
+
+\subsubsection{Receiving Station}
+
+The medical center 
+
 \section{Letter}%Totally useless haha
 
-To whom it may concern, /
+To whom it may concern, \\
 
     After hearing about the exciting news that your association has developed a new kind of medication which are effective in curing and preventing Ebola disease, we are eager to use our modeling knowledge to help the association with the subsequent projects. 
-    It is widely known that Ebola has broken out in the year 2014 and has been assaulting African people till now. So we first make a prediction about the cease time point of Ebola virus disease, making use of the statistics collected from World Health Organization. We predict that Ebola might stop its decimation in June or July, 2015. Besides, we have made a model on predicting future increase of newly infected people, and we predict that when the epidemic situation get to an end in the middle of 2015, there may be () more people infected by Ebola virus disease, and the specific statistics goes down to three countries are: Guinea () cases, Liberia () cases, and Sierra Leone () cases. After serious consideration, we decide to give our suggestion on the site selection of medical center that your association will set in the epidemic areas sooner or later. Since these days Ebola disease has been minimizing its power and the number of newly increased cases is somehow declining, it is much easier now for you to manufacture medicine and vaccines than during the most terrible months in 2014. This means that only one medical center is needed as the 
+    It is widely known that Ebola has broken out in the year 2014 and has been assaulting African people till now. So we first make a prediction about the cease time point of Ebola virus disease, making use of the statistics collected from World Health Organization. We predict that Ebola might stop its decimation in June or July, 2015. Besides, we have made a model on predicting future increase of newly infected people, and we predict that when the epidemic situation get to an end in the middle of 2015, there may be () more people infected by Ebola virus disease, and the specific statistics goes down to three countries are: Guinea () cases, Liberia () cases, and Sierra Leone () cases. After serious consideration, we decide to give our suggestion on the site selection of medical center that your association will set in the epidemic areas sooner or later. Since these days Ebola disease has been minimizing its power and the number of newly increased cases is somehow declining, it is much easier now for you to manufacture medicine and vaccines than during the most terrible months in 2014. This means that only one medical center is needed as the efficiency may be augmented once delivery projects are assembled at a specific location so as to cut off those unnecessary expense on traffic and transport. What's more, it is obvious that the medical center's site should relate to the most seriously infected area, where the number of individuals is superior to other areas to some extent. In addition, the expense on traffic should also be considered when selecting the site. 
+    Now it comes to the dispensation of vaccine and drugs. In your association's announcement your developed medication con
 
 
 
