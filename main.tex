@@ -264,6 +264,7 @@ Assumptions:
 \item Susceptible individuals cannot get contracted from human remains, for there are only a few cases that unsafe burial causes infection, and we choose to neglect those cases with relatively small possibility \cite{Sitrep}.
 \item No human entry or depart from the restricted areas, which means individuals abserved are only allowed to travel inside the epidemic areas and the people outside cannot get in those areas.
 \item Only one medical care site is needed in the whole range of the epidemic areas, since our task is to make an optimized choice to place our site and it is apparent that setting one site is the most efficient.
+\item Traffic difficulty and expense are proportional to the geographic and morphological factors. 
 \end{enumerate}
  
 
@@ -274,6 +275,8 @@ Important special cases are discussed in the following section.
 
 
 \subsection{Model}
+
+We give name to our model as Unified-SEIR. We combines spatial with temporal factors and also combine vaccine and drug delivery process with those factors. All the parameters and variables are composed rationally in our model. 
 
 First we denote the spatial locations with the expression $\left\{s_i : i = 1, ...,n \right\}$.
 
@@ -356,7 +359,7 @@ $\pi^{EI}$ and $\pi^{IR}$ can be translated as the transition probability of ``E
 
 How do we simulate the process of Ebola outspread on spacial dimension?
 
-Just like any other kind of epidemic, Ebola is communicable, which means that when a healthy person contact an infectious person, there is a possiblity that he/she might get infected. The possibility could be indicated as $p$ (in order to simplify the expression, we introduce another variable $q$, and let it be $q=1-p$).
+Just like any other kind of epidemic, Ebola is communicable, which means that when a healthy person contact an infectious person, there is a possibility that he/she might get infected. The possibility could be indicated as $p$ (in order to simplify the expression, we introduce another variable $q$, and let it be $q=1-p$).
 
 The following assumptions are made to build our space-time model:
 
@@ -498,7 +501,7 @@ Deterministic functions as follows:
 
 We will use those parameters and variables to derive posterior distributions and then get full conditional distributions of the probabilities afterwards. 
 
-
+In this model when vaccine is used during the epidemic period, the rate of transition between the susceptible and the exposed will decrease and $\mathcal{R}_0$ may decline and the infected individuals will have less chance to spread Ebola to the susceptible individuals since some of them will be immune. 
 
 \section{Experiments and Results}
 
@@ -507,7 +510,7 @@ We will use those parameters and variables to derive posterior distributions and
 %% This is written by Jackie, please pay extreme attention to grammar error.
 In order to fit our model to real world scenario, statistics about the number of patient confirmed suffered from Ebola in each area are necessary. The geographic relationship between each administrative division might also be required.
 
-Our data about the disease is obtained from the World Health Organization website 's data and statistics page. Other geographic data is obtained from "City Population" website[] whose data is acquired from official department within each country[][][].
+Our data about the disease is obtained from the World Health Organization website 's data and statistics page. Other geographic data is obtained from "City Population" website\cite{citypop} whose data is acquired from official department within each country\cite{liberia,sierraleone,guinea}.
 
 We collected the data from WHO as comma-separated value (CSV) files containing the count of new cases each day. We formated the geography relations and people density of each area based on the data and map showed on "City Population" website and verified it against original source. Notably, patient count showned on World Health Organization 's website is from two sources: situation report and patient database. According to World Health Organization, situation report have choose a more ``reliable'' method and have a better accuracy.\cite{whositrep}. Thus, we use data database for patient number before Nov.19 2014 (situation report only showed data after this date) and choose situation report for other dates. 
 
@@ -517,9 +520,11 @@ These data provide rich reference for our model formulation, enable us to adjust
 
 As mentioned above, we need to estimate the factor of the distribution in a maximum likehood manner. In general, using a maximum likehood approach require us to calculate  the possibility of a certain value, which is rather hard in such a complex (and accurate) model. Because of the difficulty of calculating the real distribution of each parameter, we adopted the Metropolis-Hastings Algorithm\cite{besag1993spatial} to approach the real possibility distribution of each argument.
 
-The algorithm for SEIR model is implemented in libspatialSEIR
+In implemention, we use R programming language\cite{Rlang} to process all the data and uses libspatialSEIR \cite{libspatialSEIR} for build a SEIR model. In practice, libspatialSEIR is a very experimental library, requiring us to spend many time to debugging.
 
 \subsection{Environment}
+
+The modeling environment is on a Unix-like Intel-Mackintosh environment with base R language, libspatialSEIR and other library installed.
 
 \subsection{Verification}
 
@@ -600,38 +605,110 @@ This study also shown that the disease is controlled greatly due to the help fro
 
 \subsubsection{Amount}
 
-One of the most basic problems that the WMA might concern would be the amount of medicines, including drugs and vaccines. As the association's goal is to distribute the medications efficiently and effectively, as well as to save as many human lives as possible, it'll be great to produce as many medicines as possible, but it is more practical to produce medicine according to the amount of patients.
+One of the most basic problems that the WMA might concern would be the amount of medicines, including drugs and vaccines. As the association's goal is to distribute the medications efficiently and effectively, as well as to save as many human lives as possible, it'll be great to produce as many medicines as possible, but it is more practical to produce medicine according to the amount of patients. 
+
+We have conducted a research showing possible prediction of patients number in future (Table \ref{PredictionTable}). We suggest medicine company should produce drugs accordingly.
 
 \begin{table}[htbp]
 \centerline{
-    \begin{tabular}{llll}
-    Date    & Guinea & Liberia & Sierra Leone \\
+    \begin{tabular}{|llll|}
+    \hline
+    Date    & Guinea & Liberia & Sierra Leone \\ \hline
     2015-04 & 461    & 234     & 674          \\
     2015-06 & 179    & 81      & 290          \\
     2015-08 & 63     & 31      & 121          \\
-    sum     & 703    & 346     & 1085         \\
+    sum     & 703    & 346     & 1085         \\ \hline
     \end{tabular}
     }
     \caption{Amount of patient each 2 months (predicted)}
-    \label{SierraLeonePredictionTable}
+    \label{PredictionTable}
 \end{table}
 
 \subsubsection{Receiving Station}
 
-The medical center 
+We're going to set up a medical center in Africa, which serves as a station receiving medicines produced by WMA, and handing out the materials to other parts of Africa.
 
-\section{Letter}%Totally useless haha
+Selecting the location of this center should take these features into consideration:
+
+\begin{itemize}
+\item The traffic expense of the materials from the center to the places in need (namely the distances and the difficulties on the way, such as the terrain features).
+\item The time cost of sending materials to the places in need: perhaps we would be able to achieve more than simply waiting for the request asking for medical aids; by using our model it might be possible to predict the future and send materials to the places to be ask for help.
+\item The center would be best replaced in where cases centralize around. 
+\end{itemize}
+
+\begin{table}[htbp]
+\centerline{
+    \begin{tabular}{|l|lll|}
+    \hline
+    Distances    & Guinea & Liberia & Sierra Leone \\ \hline
+    Guinea       & 0      & 478.00  & 126.24       \\
+    Liberia      & 478.00 & 0       & 361.50       \\
+    Sierra Leone & 126.24 & 361.50  & 0            \\ \hline
+    \end{tabular}
+    }
+    \caption{Distances between ebola affected country}
+    \label{DistanceTable}
+\end{table}
+
+As is depicted in Figure \ref{DistanceTable}, among the three countries we aimed at, the total distance between the center of a country to the two others are as shown in Figure \ref{SumDistTable}.
+
+\begin{table}[htbp]
+\centerline{
+    \begin{tabular}{|l|lll|}
+    \hline
+    Countries                  & Guinea  & Liberia & Sierra Leone \\ \hline
+    Sum of distance to others  & 604.24  & 839.5   & 487.74      \\ \hline
+    \end{tabular}
+    }
+    \caption{Distances between ebola affected country}
+    \label{SumDistTable}
+\end{table}
+
+It is easily recognized that Sierra Leone is extremely close to the other two.
+
+On the other hand, as is shown in Figure \ref{PredictionTable}, Sierra Leone would have the most cases break out among the three countries we study, according to our prediction.
+
+Combining the two figures (Figure \ref{DistanceTable}, Figure \ref{PredictionTable}) together, let the total expense of distributing medicines be:
+
+\begin{center}
+\item $Cost = k\sum Dist\cdot nCases$\\
+\end{center}
+
+Where $k$ is a constant parameter that we do not care in this experiment (take $S_i$ as an example); $Cost$ is the total cost of building the center in a chosen place; $Dist$ is the distance between the medical center and any location requesting for medical aids; $nCases$.
+
+Then the total cost of the three location choices are as shown in Figure \ref{CostTable}.
+
+\begin{table}[htbp]
+\centerline{
+    \begin{tabular}{|l|lll|}
+    \hline
+    Location     & Guinea     & Liberia    & Sierra Leone  \\ \hline
+    Total Cost   & 302358.4k  & 728261.5k  & 213825.72k    \\ \hline
+    \end{tabular}
+    }
+    \caption{Distances between ebola affected country}
+    \label{CostTable}
+\end{table}
+
+In conclusion, Sierra Leone is the best choice to place the medical center, and receiving station, without doubt.
+
+\section{Letter to the World Medical Association}%Totally useless haha
+
+ \begin{letter}{``recipient''}
 
 To whom it may concern, \\
 
     After hearing about the exciting news that your association has developed a new kind of medication which are effective in curing and preventing Ebola disease, we are eager to use our modeling knowledge to help the association with the subsequent projects. 
-    It is widely known that Ebola has broken out in the year 2014 and has been assaulting African people till now. So we first make a prediction about the cease time point of Ebola virus disease, making use of the statistics collected from World Health Organization. We predict that Ebola might stop its decimation in June or July, 2015. Besides, we have made a model on predicting future increase of newly infected people, and we predict that when the epidemic situation get to an end in the middle of 2015, there may be () more people infected by Ebola virus disease, and the specific statistics goes down to three countries are: Guinea () cases, Liberia () cases, and Sierra Leone () cases. After serious consideration, we decide to give our suggestion on the site selection of medical center that your association will set in the epidemic areas sooner or later. Since these days Ebola disease has been minimizing its power and the number of newly increased cases is somehow declining, it is much easier now for you to manufacture medicine and vaccines than during the most terrible months in 2014. This means that only one medical center is needed as the efficiency may be augmented once delivery projects are assembled at a specific location so as to cut off those unnecessary expense on traffic and transport. What's more, it is obvious that the medical center's site should relate to the most seriously infected area, where the number of individuals is superior to other areas to some extent. In addition, the expense on traffic should also be considered when selecting the site. 
-    Now it comes to the dispensation of vaccine and drugs. In your association's announcement your developed medication con
+    
+    It is widely known that Ebola has broken out in the year 2014 and has been assaulting African people till now. So we first make a prediction about the cease time point of Ebola virus disease, making use of the statistics collected from World Health Organization. We predict that Ebola might stop its decimation by the end of 2015. Besides, we have made a model on predicting future increase of newly infected people, and we predict that in a half year period, there may be about 2134 more people infected by Ebola virus disease, and the specific statistics goes down to three countries are: Guinea 703 cases, Liberia 346 cases, and Sierra Leone 1085 cases. After serious consideration, we decide to give our suggestion on the site selection of medical center that your association will set in the epidemic areas sooner or later. Since these days Ebola disease has been minimizing its power and the number of newly increased cases is somehow declining, it is much easier now for you to manufacture medicine and vaccines than during the most terrible months in 2014. This means that only one medical center is needed as the efficiency may be augmented once delivery projects are assembled at a specific location so as to cut off those unnecessary expense on traffic and transport. What's more, it is obvious that the medical center's site should relate to the most seriously infected area, where the number of individuals is superior to other areas to some extent. In addition, the expense on traffic should also be considered when selecting the site. 
+    
+    Now it comes to the dispensation of vaccine and drug. In your association's announcement your developed medication contains two kinds of medical products, vaccine and drug. We all know that vaccine can effectively decrease the number of people who are likely to be infected. So as we boldly predict, if vaccine is put into use from now on, the number of infected people will cut off by (). As for drug, since till now the number of newly infected people has been slightly decreasing and the pressure on the pharmaceutical factory affiliated to your association will not be too high. As a matter of fact, we believe that your association has the ability to manufacture adequate drug for every single patient, so you can try to follow our model's prediction and distribute drug rationally according to the increase pattern of infected individuals in diverse areas.
+    
+    
 
 
 
-
-
+\end{letter}
 
 
 \medskip
