@@ -1,0 +1,615 @@
+\documentclass[11pt]{article}
+% Useful math stuff in amsmath
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{alltt}
+\usepackage{float}
+\usepackage{url}
+% Graphicx for including pictures in various formats
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+%
+\usepackage{fullpage}
+% Tweak the headings
+\pagestyle{myheadings}
+\renewcommand{\thepage}{Page \arabic{page}}
+\newcommand{\pagetop}{Team \# 39984}
+\setlength{\headsep}{0.4in}
+\markboth{\pagetop}{\pagetop}
+%
+% \T and \B are 'fudge factors' for the tabular environment.
+%
+\newcommand\T{\rule{0pt}{2.6ex}}
+\newcommand\B{\rule[-1.2ex]{0pt}{0pt}}
+%
+% The main document begins here...
+%
+\newcommand{\widesim}[2][1.5]{
+      \mathrel{\overset{#2}{\scalebox{#1}[1]{$\sim$}}}
+  }
+
+\newcommand \noi {\noindent}
+\newcommand \itx {\indent \indent \indent}
+\newcommand \bg {\begin}
+\newcommand \en {\end}
+\newcommand \mth {\begin{math}}
+\newcommand \mthx {\end{math}}
+\newcommand \ds {\displaystyle}
+\newcommand \mbreak {\\ \vspace{0.1in}}
+\begin{document}
+
+\centerline{\textbf{\Large A Powerful Ebola Model: U-SEIR}}
+
+\begin{abstract}
+
+Ebola is an infectious disease spreading among primates, including mankind, chimpanzee, gorilla, and so on. There was a terrible outbreak of Ebola in 2014, sweeping over the west coast of Africa, threatening people's life gravelly.
+
+There are several maturity models already exist. Among them there are SI, SIR, SEIR, SEIRS, etc. In the case of Ebola, the classic SEIR model applies to it nicely.
+
+Scientists are studying epidemics and making continuing efforts on modelling epidemics, including Ebola. Mr. Grant Brown has suggested that the spacial factor could be combined with the traditional SEIR models to create a new kind of epidemic-simulating model: spacial-SEIR model\cite{libspatialSEIR}.
+
+Learning from the advantages of existing models, we are quite confident that our model is an extremely advanced one.
+
+We build a model called Unified-SEIR (U-SEIR, pronounced like ``user''), combining not only spacial factors but also the distribution of medication with the classic SEIR model as its basis. U-SEIR is such a powerful model that it is able to:
+\begin{itemize}
+\item simulate the outspread process of Ebola by using given parameters
+
+\item predict the future trend of the outspread of Ebola
+
+\item estimate the parameters by using given outspread data set
+
+\item assess the effect of a given medication-distribution plan
+\end{itemize} 
+As for the data set, we got it mainly from the website of the World Health Organization (WHO). People in the mostly-affected countries: Guinea, Sierra Leone, and Liberia, are selected to be our study population.
+
+\end{abstract}
+
+
+
+\section{Introduction}
+
+The Ebola virus disease (EVD) Figure, also called the Ebola Hemorrhagic Fever (EHF), or simply Ebola, is a disease infecting humans and other primates. The Ebola outbreak in 2014, which at first broke out in African countries, gave rise to a worldwide epidemic crisis, drawing the global attention.
+
+As an widespread epidemic, Ebola has some distinguishing features. For instance, Ebola mainly exists in patients' body fluids, and could only spread by direct contact with the blood or body fluids of a person who has developed symptoms of the disease. The transmission might indicate that Ebola is more likely to break out in damp locations. 
+
+Ebola is not infectious during its incubation period. %[wikipediahttps://en.wikipedia.org/wiki/Ebola_virus_disease#Transmission, citation 29, 30, 31]
+Therefore, it is quite easy to slow down the spread, or even stop it, once good medical and isolating conditions are provided. What's more, the disease shouldn't be so lethal as it appears to be in Africa these days.
+
+However, unlike the developed countries and regions, Africa has extremely limited medical conditions, such as the backward facilities, the shortage of medicine, and the lack of essential medical knowledge. What makes the condition even worse is that, the average living standard in Africa is too poor to keep the population in good health. That many of the African countries are in short of grain is well-known throughout the world.
+
+The registration management in some of the African countries are unbelievably terrible. In Sierra Leone, the last census was taken in the year 2008; in Liberia, no census was taken after 2004. Taking all these clues into consideration, it is not surprising that it roughly takes 4 days \cite{Sitrep} to get a patient who has developed symptoms isolated on average. Everybody who has contact with the person during the 4 days, especially those who are in an intimate relationship with the person, are very much likely to be infected.
+
+Without favorable medical circumstances and a good management mechanism, Ebola becomes a terrible threat in Africa.
+
+The World Medical Association (WMA) has suggested a new type of medication should be in widespread used in order to conquer the existing Ebola by stopping the transmission of the virus as well as curing the patients whose disease is not advanced yet. 
+
+In order to help this organization deal with the fatal virus, our team build a model combining analysis of the spread of disease with the allocation of medical cure. To eradicate the disease as soon as possible, we will provide an available method for the World Medical Association to dispense their elixirs rationally, efficiently and effectively according to our model.
+
+%\subsection{Background}
+
+
+So far Ebola has taken away thousands of human lives mainly from African countries along west coast.
+
+The most destructed countries include Sierra Leone, Liberia and Guinea. As is depicted in the statistics accumulating the confirmed cases of Ebola, countries relatively developed, such as the United Kingdom and Spain, had only 1 case reported respectively, and the US had merely 4 cases reported \cite{NumOfCases}, which is certainly an insignificant amount of data in comparison to those records from Africa, being far from enough to provide adequate information about the spreading trend of the disease, and therefore is reasonable to be ignored. Those helpless sporadic cases will be excluded from our model's data set at the very beginning.
+
+As a matter of fact, we will lay emphasis on the cases that have broken out in the countries along the west coast of Africa, especially the following three: Guinea, Liberia, and Sierra Leone, where the EVD broke out widely and has been spreading out vastly. 
+
+
+
+\section{Backgrounds}
+
+\subsection{About countries selected}%About africa countries with outbreak
+
+In 2014, an outbreak of Ebola swept over a vast area of Africa and latter on affected several other countries far away, drawing the world's attention.
+
+The first case of the recent outbreak of Ebola has been confirmed in Guinea, while the disease has been spread about from Guinea to its neighboring countries, especially Sierra Leone and Liberia. 
+
+The three countries are all in humid areas and are all suffering from poverty. Besides, they are all in a poor medical condition. With few hospitals and inadequate local clinics, normally people cannot receive full set of medical care after catching the diseases. Poor medical condition, together with the lack of the basic living articles, leads to poor health level, thus those three countries' areas provide fertile chances for Ebola to disperse and infect people.
+
+On the other hand, one of their neighbors, Mali, though adjoined to Guinea, has reported much fewer Ebola cases. Mali and those three countries are all listed on the Least Developed Country \cite{LeastDevelopedCountry}. Yet Ebola has been restrained by the dry climate of Sahara. Mali's cases are also sporadic and insignificant, that's why we exclude it from our model.
+
+In other words, our model's data set contains only three countries: Sierra Leone, Liberia and Guinea. They are the most representative ones among all.
+
+\subsection{About the virus and the disease}% only the biology feature
+
+Ebola virus is one of five known viruses within the genus ebolavirus \cite{Ebolavirus}. Four of the five known ebolaviruses, including EBOV, cause a severe and often fatal hemorrhagic fever in humans and other mammals, known as Ebola virus disease (EVD). Ebola virus has caused the majority of human deaths from EVD, and is the cause of the 2013–2015 Ebola virus epidemic in West Africa, which has resulted in at least 22,560 suspected cases and 9,019 confirmed deaths \cite{NumOfCases}.
+
+Ebola virus is one of the four ebolaviruses known to cause disease in humans. It has the highest case-fatality rate of these ebolaviruses, averaging 83 percent since the first outbreaks in 1976, although fatality rates up to 90 percent have been recorded in one outbreak (2002–03). There have also been more outbreaks of Ebola virus than of any other ebolavirus. The first outbreak occurred on 26 August 1976 in Yambuku \cite{FirstOutbreak}. The first recorded case was Mabalo Lokela, a 44‑year-old schoolteacher. The symptoms resembled malaria, and subsequent patients received quinine. Transmission has been attributed to reuse of unsterilized needles and close personal contact, body fluids and places where the person has touched.
+
+Ebola virus disease (EVD; or Ebola Hemorrhagic Fever, EHF), or Ebola as an abbreviation, is a disease of humans and other primates caused by ebolaviruses. Signs and symptoms typically start after an incubation period who takes a period normally between two days and three weeks after contracting the virus with a fever. These signs and symptoms include: sore throat, muscle pain, headaches, and so on. Since they resemble the symptoms of cold or flu, they are very much likely to be misdiagnosed and therefore delay the condition of patients. Soon afterwards, vomiting, diarrhea and rash usually follow, along with decreased function of the liver and kidneys. At this time some people begin to bleed both internally and externally \cite{Ebolavirusdisease}.
+
+The disease has a high risk of death, killing between 25 and 90 percent of those infected with an average of about 50 percent \cite{Ebolavirusdisease}. This is often due to low blood pressure from fluid loss, and typically follows six to sixteen days after symptoms appear \cite{singh2014viral}.
+
+The virus spreads by direct contact with body fluids, such as blood, of an infected human or other animals \cite{Ebolavirusdisease}. This may also occur through contact with an item recently contaminated with bodily fluids \cite{Ebolavirusdisease}. Controlling the outbreaks requires coordinated medical services, alongside a certain level of community engagement. The medical services include rapid detection of cases of disease, contact tracing of those who have come into contact with infected individuals, quick access to laboratory services, proper healthcare for those who are infected, and proper disposal of the remains of the dead through cremation or burial \cite{Ebolavirusdisease, GuidanceforSafeHandling}.
+
+\subsection{About medicine and vaccine}
+
+Although there is no specific drugs or effective vaccines up till now, is said that the vaccine of Ebola viruses is under active development of the National Institutes of Health (NIH) of the USA. We might keep faith in hope and hold the belief that the research achievements would come out soon.
+
+As is previously implied, the world medical association has developed a new kind of medication that can cure patients thoroughly. Regardless of drug or vaccine that the association has developed, we treat it as a truth that an individual is sure to be cured once receiving medical care. This is one of our fundamental assumptions which our model is based on. It means that every recovered person has no way to be reinfected, so as to complete the Ebola eradication project. 
+
+After the disease spreading part we are to take the medical care delivery model into consideration. Sierra Leone, Liberia and Guinea are close to each other on geographical aspect. The outbreak and diffusion of Ebola among those three countries derive a fundamental framework for medical units dispensation. While people are randomly moving among various restricted areas, medicine can mimic the moving pattern to some extent. A model that connects disease and medicine can fully testify the model's practical utility, since theoretically it is relatively efficient for the medical delivery to imitate individuals' moving routes under random migrating condition. 
+
+\section{Problems and Solutions}
+
+\subsection{Problems}% rephrase the problem
+
+Now that the Ebola is a grave threat in Africa and that must be solved as soon as possible is clear, we are to help solving it by building a model.
+
+We will emphasize on the model designed to express a kind of uncertainty for an individual to proceed his or her migration. A person will be infected by others through several contacts with disease carriers who have the ability to spread the virus (those who already developed symptoms of the disease).
+
+First of all, we have to be informed about the probability of being infected for an individual. We are to describe the features by using several parameters. The statistics of probabilities will help us to predict Ebola infecting mode so as to provide information for the further studies, the medical care delivery model to be specific.
+
+Secondly, we are going to build a model to build a model so as to simulate the spreading trend of the Ebola disease, using the data set collected from the cases in Africa.
+
+Finally we will come up with a proposal, or maybe principles, in distributing medicine. Our distributing plan would be based on the Ebola spreading simulation. Once we get an explicit and accurate, we are able to conduct an allocation plan accordingly.
+
+In conclusion, our model should be helpful in conquering the Ebola disease more efficiently and effectively.
+
+\subsection{Discussion}% perhaps a better name? 
+
+\begin{figure}[t]
+\centerline{\includegraphics[width=5in]{"SEIR".pdf}}
+\caption{SEIR procedure}
+\label{SEIR}
+\end{figure}
+
+\subsubsection{Patient}
+
+Building a multi-dimensioned model to describe an individual’s personal statement is a widely-used method in expressing the feature of the features related to, or actions taken by an individual.
+
+For this problem, how a person moves and when he or she starts his or her trip to contact with other people should be quantitatively described. Since every contact has a probability of adding a newly contracted individual, and a person will not soon be infected till time elapses, we regard time as a crucial factor that affects a person’s infecting pattern.
+
+An infected person will still randomly meet other people during a couple of days, and some day afterwards he or she will be discovered and confirmed, and therefore isolated by a medical institution.
+
+Ebola, like any other epidemic disease, has its own pattern contracting individuals. We recognize it based on a SEIR model, a classic model that is frequently and widely used in describing the outspread trend of an epidemic that:
+\begin{itemize}
+\item Has an incubation period, which means that there is a phase (several days in the case of Ebola viruses) exists in the development of an infection between the time the pathogen enters a person's body and the time the first symptoms indicating that the person is infected appear.
+
+\item Those who have already recovered from a previous infection of this epidemic would get lifelong immunity, and therefore would never be affected again.
+
+\end{itemize}
+
+\subsubsection{Growth in a certain area}
+
+The Growing trend of Ebola inside a certain area could be modeled by typical SEIR. The basic construction and procedure of classic SEIR is shown in \ref{SEIR}.
+
+A typical classical SEIR model contains several components. In the SEIR model, people in study population are divided in to four sub-classes, indicated by the capitalized letter ``S'', ``E'', ``I'' and ``R'' respectively. Their meanings are as follows:
+\begin{itemize}
+\item Susceptible (S): individuals possible of being infected by Ebola.
+
+\item Exposed (E): individuals contacted by infectious Ebola virus carriers but not yet appear to be infected.
+
+\item Infectious (I): individuals capable of spreading the Ebola disease and appeared to be infected.
+
+\item Recovered/Removed (R): individuals recovered by medical cure or removed from regional population.
+\end{itemize}
+We assume that persons involved in Ebola crisis are moving through aforementioned procedures to undergo the whole process of disease. The signs and symptoms after contracting Ebola virus are similar to SEIR mode. That is to say, once contracted Ebola, an individual would be removed from set ``S'' and added to set ``E'', a few days latter moved to set ``I'', and finally moved to set ``R''.
+
+\subsubsection{Spread in spacial aspect}
+
+In practice ``SEIR'' model sometimes are transformed into different patterns. For example, a simple epidemic model may use an S-I-R structure in which individuals become immediately infectious without latent period.  Assuming permanent immunity, there is no need to consider about reinfection procedure, yet for a disease which provides only temporary immunity, such as influenza, S-I-R-S model may be employed, which include a potential for previously recovered individuals to be reintroduced to the susceptible population. Similarly, SEIR models contains a latent period named ``Exposed'' during which individuals are concealed to become infectious. 
+
+This diverse structures has been generalized to allow epidemics to be modeled over spatial, as well as time dimension.
+
+\subsubsection{Take medical treatment in to consideration}
+%connection between spatial-time SEIR with real situation
+
+According to the data collected and situation reports provided by authorities such as the World Health Organization (WHO), the length of time between exposure to the virus and the development of symptoms (incubation period) is between 2 to 21 days (usually 4 to 10) \cite{Ebolavirusdisease}, which certifies our assumption as feasible precondition. 
+
+In this problem though Ebola virus disease has panicked African people and triggered global concern, we are optimistic about it for the world medical association (WMA) has claimed the birth of new medication. Once we trust this association, African people may get rescued and totally cured. In other words, we do not need to observe the individuals who are put into ``Recovered/Removed'' group, since they have no chance to be susceptible again and will not influence other individuals in different state any more. In addition, Ebola virus disease does have a latent period before infection. Therefore, the ``SEIR'' model is the most suitable one.
+
+One specific person is to have a two-dimensional probability of getting infected by contacting with the already infected ones. Our model takes not only spatial factors, but also temporal factors into considerations. On the one hand, a person's spatial location measures the probability of interpersonal contacting and disease diffusion; on the other hand, the temporal coordinate shows changing process in a time period.
+
+The reason why we take spatial and time factors into consideration is that it would be extremely helpful to precisely describe an individual’s movement mode for estimation.
+
+To explain the SEIR model more explicitly:
+
+\begin{itemize}
+\item A person, destined to be a patient, with the beginning identity as ``Susceptible (S)'', will undergo a procedure just as the definition provided by SEIR model, which is to say, he/she will first contract Ebola virus and become ``Exposed (E)''.
+
+\item After a few couple of days of being a member of group E, he/she will show the symptoms (I) of Ebola disease and be sent to hospital. Before sent to hospital, the infected (I) person will have the only chance to infect others.
+
+\item From the time the individual be sent into the hospital, there will be carefully isolated by ordinary medical services, and the patient (I) cannot contact other people and lead to the further spread of the disease any more. The individuals isolated in hospital are sure to become ``Recovered/Removed (R)'', when they are cured successfully, or unfortunately pass away. Being added to the group R means that they are excluded from Ebola-communicating system.
+\end{itemize}
+
+As is briefly mentioned previously in this section (\ref{SEIR}), at the very time point, individuals can be divided into four groups marked as ``S'', ``E'', ``I'' and ``R'' respectively, and at the next time point the four groups will exchange their components and refresh the individuals’ data. We name the four new groups as ``S*'', ``E*'', ``I*'' and ``R*''. We can easily get the relationship between the former ``SEIR'' and the new groups ``S*E*I*R*''. Therefore, as a matter of fact, time factor will help express individual’s state temporarily.
+
+In a word, time factor is taken into consideration by taking advantage of probability in our simulation.
+
+More than classic SEIR model, our model also takes spacial features into consideration.
+
+Similarly, to consider the spatial factor of an individual is to measure the person’s interpersonal connection with others. An individual can move from one place to another with ease before he/she catches Ebola, to be specific, before his/her symptoms appear, though traffic in Africa is usually inconvenient. An individual will randomly follow a framework connecting restricted outbreak areas, where other individuals will also follow their frameworks migrating till they are isolated after found infected.
+
+We can use a matrix to express an individual’s movement pattern. By using these patterns we will be able to create medical care delivery patterns accordingly.
+
+Medical care can be divided into two categories, drug and vaccine.
+
+To people who have already been isolated in hospital, drugs are certainly accessible, and there will be a substantial increase in their recovery rate. Yet as is expounded before, no matter what kind of treatments the isolated people receive, they are not likely to be infected again.
+
+Vaccines, however, are provided to those who are not isolated, in other words, ``Susceptible (S)'' and ``Exposed (E)'' ones. Though it is useless to get the exposed individuals (E) vaccinated since he or she is destined to be infected and isolated, vaccine is widely spread since it can effectively diminish the amount of ``Exposed (E)'' people, which means part of people in the condition ``Susceptible (S)'' are turned directly to ``Recovered (R)'', excluded from Ebola’s infecting range without moving through the ``SEIR'' chain. In a word, medical care can efficiently increase the number of ``Recovered'' people, decrease expiring rate and accelerate eradicating Ebola.
+
+
+\subsubsection{About Medical Delivering}
+
+Medical treatment is important in dealing with the Ebola epidemic.
+
+In reality, most patients pass away because of the secondary infections, which means that, they are not killed directly by Ebola, but by other illness that are likely to be arose after being infected by Ebola. With adequate medication, death rate could be dramatically reduced, and conquering the disease would be much more easier.
+
+What's more, once Ebola vaccine is invented, it'll be possible for us to erase Ebola from the Earth, now and for ever.
+
+However, it is unlikely to build factories in Africa, since their fundamental infrastructures are far too poor. Therefore, factories producing the drugs and vaccines would better be built in more-developed countries or regions.
+
+From any other place except Africa, whether the destination is Sierra Leone, Liberia, Guinea, or other regions in Africa has little influence on the delivery expense.
+
+Moreover, adding more receiving stations might work out well under the condition that the geographical locations of Ebola patients all over Africa resemble even distribution, and might also work out well under the condition that newly-increased cases are in quantity. However, in this case, thanks to the joint effort made by all warm-hearted people and organizations around the world, cases newly-reported become extremely rare these days, and are highly centralize in African west coast.
+
+In a word, building more receiving stations could not make material-distributing more efficient.
+
+Quite clearly, what we actually concern are:
+
+\begin{itemize}
+\item The quantity of medicine required in African countries;
+\item Where in Africa should be selected as the receiving center of the materials
+\end{itemize}
+
+In conclusion, we suppose that it would be enough to set merely one site in Africa to receive medication aids like drugs and vaccines directly, where all regions (in Africa) requiring Ebola medicines would get the materials needed; and we use our model to predict the future developing trend of this specific Ebola outbreak, so as to present reasonable predictions about the approximate amount of medicine required.
+
+\subsection{Assumptions and Modeling plans}
+%all the equations
+Assumptions: 
+\begin{enumerate}
+\item Patients' status is limited to ``S'', ``E'', ``I'' and ``R''; the switches of the status are also limited to the few known patterns mentioned above
+\item The natural growth rate of the whole period of Ebola outbreaks equals to zero
+\item Susceptible individuals cannot get contracted from human remains, for there are only a few cases that unsafe burial causes infection, and we choose to neglect those cases with relatively small possibility \cite{Sitrep}.
+\item No human entry or depart from the restricted areas, which means individuals abserved are only allowed to travel inside the epidemic areas and the people outside cannot get in those areas.
+\item Only one medical care site is needed in the whole range of the epidemic areas, since our task is to make an optimized choice to place our site and it is apparent that setting one site is the most efficient.
+\end{enumerate}
+ 
+
+
+The stochastic SEIR model has been successfully applied in the past to Ebola by Lekone and Finkenst{\"a}dt (2006), making it a good candidate model family for the current outbreak. 
+Important special cases are discussed in the following section.
+
+
+
+\subsection{Model}
+
+First we denote the spatial locations with the expression $\left\{s_i : i = 1, ...,n \right\}$.
+
+Let $d(s_a, s_b) = d_{ab}$ define a measure of distance between spatial locations. Note that $d(s_a, s_a) = 0$, and $d(s_a, s_b) = d(s_b, s_a)$.
+        
+        We denote time as ${t_j : j = 1, ...,m}$ \\. Time units will fit appropriately to the data and disease process, and in this problem we choose to use week as unit.
+
+
+ Now we define the following components for each $s_i$ and $t_j$:
+
+We measure every component by spatial and temporal factors, and we combine those components in column major order with a matrix of T rows and n columns. Every single element in the matrix is a token of a very specific set of time and spatial state. 
+
+\begin{itemize}
+            \item {$y_{ij}$} is the observed data, contains diverse statistics given by samoles.
+            \item {${N_{ij}}$} is the population size, which can be searched from official database.
+            \item {${S_{ij}}$} is the amount of susceptible individuals.
+            \item {${E_{ij}}$} is the amount of exposed individuals.
+            \item {${I_{ij}}$} is the amount of infectious individuals.
+            \item {${R_{ij}}$} is the amount of recovered/removed individuals. All those four variables above have close relationships with next three below: 
+            
+            \item {${E^*_{ij}}$} is the number of newly exposed individuals
+            \item {${I^*_{ij}}$} is the number of newly infectious individuals
+            \item {${R^*_{ij}}$} is the number of newly recovered/removed individuals
+        \end{itemize}
+        
+(In our problem {$S^*_{ij}$} is not defined for Ebola does not have the chance to reinfect a person in ``Recovered/Removed'' compartment.)
+
+The equation {$\bf{N_j} = \bf{S_j + E_j + I_j + R_j}$} for all $j$ rows is given information about population, which means the total population is only determined by the four groups of individuals. 
+
+ In addition let ${\bf{S_0, E_0, I_0,}}$ and ${\bf{R_0}}$ denote the $n$-vectors that represent initial value of spatial statements at the start of the modeling period.
+ 
+    Now we specify the data model as below: 
+
+    \vspace{0.15in}
+
+    \begin{center}
+        ${ \{y_{ij}\ | I^*_{ij}\} \widesim{ind}\ g(I^*_{ij}, \Theta)  }$
+    \end{center}
+
+  Since we use an identity data model, it means: 
+    \begin{center}
+        $g(I^*_{ij}) = I^*_{ij}$  
+    \end{center}
+    with probability one. This is under active development. \\
+
+    \vspace{0.15in}
+
+
+
+
+    Given the values of the aforementioned variables, the disease process will undergo a time period when it can derive a couple of equations 
+
+below: 
+    \begin{center}
+       { $\bf{S_{j+1}} = \bf{S_j} - \bf{E_j^*} $}\mbreak
+       { $\bf{E_{j+1}} = \bf{E_j} - \bf{I_j^*} + \bf{E_j^*}$}\mbreak
+       { $\bf{I_{j+1}} = \bf{I_j} - \bf{R_j^*} + \bf{I_j^*}$}\mbreak
+       { $\bf{R_{j+1}} = \bf{R_j} + \bf{R_j^*} $}\mbreak
+    \end{center}
+    \vspace{0.15in}
+
+   Four equations above express the relationship between new statistics and the former, since every link of the chain describes a transfer law. 
+
+At time point ${j+1}$ ${S_{j+1}}$ should be the difference between ${S_j}$ and ${E_j^*}$ since ${E_j^*}$ is the number of individuals who have contracted infectious people and undergo the latent period. Other equations can also be deduced like that. Furthermore, because ${S_j^*}$ is excluded from our model, we do not consider about the cycling loop, which means as time goes by, every single person will go to ``Recovered/Removed'' compartment and at that time Ebola virus disease will be eradicated, though without medication the whole process may take a long time to proceed and all the susceptible people might expire.
+
+
+   Now we specify the following chain binomial relationship: 
+    \vspace{0.15in}
+    {
+
+        
+       { $\{E_{ij}^* | \pi^{SE}_{ij}, S_{ij} \} \widesim{ind}\ binom(S_{ij}, \pi^{SE}_{ij})$ }\mbreak
+
+       { $\{I_{ij}^* | \pi^{EI}, E_{ij} \} \widesim{ind}\ binom(E_{ij}, \pi^{EI})$}\mbreak
+
+       { $\{R_{ij}^* | \pi^{IR}, I_{ij} \} \widesim{ind} binom(I_{ij}, \pi^{IR})$}\mbreak
+    }
+
+$\pi^{EI}$ and $\pi^{IR}$ can be translated as the transition probability of ``Exposed'' to ``Infectious'' and ``Infectious'' to ``Recovered/Removed''. Besides, $\pi^{SE}_{ij}$ describes the actual infection process for susceptible individuals, which relates to the spatial framework of $ s_i $. These important components are informed in the following explanations.
+
+How do we simulate the process of Ebola outspread on spacial dimension?
+
+Just like any other kind of epidemic, Ebola is communicable, which means that when a healthy person contact an infectious person, there is a possiblity that he/she might get infected. The possibility could be indicated as $p$ (in order to simplify the expression, we introduce another variable $q$, and let it be $q=1-p$).
+
+The following assumptions are made to build our space-time model:
+
+\begin{itemize}
+
+    \item $K_i$ represents the number of `contacts' between any two persons in the place index i ($s_i$); it follows a Poisson distribution at any time
+    \begin{center}
+        $K_j \sim Po(\lambda_i)$
+    \end{center}
+    \item When a person in place $s_i$ travels to place $s_a$, his/her contact behavior changes from $K_i$ to $K_a$ in the meanwhile 
+    \item $f(d_{ia})$ of the distance ($d_{ia}$) between two places' centroids are used to describe the cantact between two locations ($s_i$ and $s_a$); the contact is proportional to this function.
+
+\end{itemize}
+
+$\delta_{ij}$ is defined as the proportion of infectious persons to the whole population in the spatial unit $s_i$, and at time $t_j$. $Inf(s_i, t_j)$ denotes the event that a person becomes 
+infected from contact within at $s_i$, $t_j$; $!Inf(s_i, t_j)$ denotes it's complement.
+
+From all these assumptions above we can derive:
+
+%insert it here
+
+\begin{center}
+
+    $P(Inf(.,t_j)) = 1 - P(!Inf(s_i, t_j)) \cdot  P(!Inf(s_{-i }, t_j))$ \mbreak
+   In the sentence above { $ s_{-i } $ } represents another spatial point that is different from $s_{i } $. \mbreak
+    $P(!Inf(s_i, t_j)) = E(!Inf(s_i, t_j)) = E(E(!Inf(s_i, t_j)|K_i=k_i))$  \mbreak
+    $\displaystyle =E(((1-\delta_{ij})q)^{k_i})$  \mbreak
+    $\displaystyle = \sum_{k=0}^{\infty} ((1-\delta_{ij})q)^k(\frac{\lambda_i^ke^{-\lambda_i}}{k!})$\mbreak
+    $\displaystyle =  \sum_{k=0}^{\infty} q_{ij}^k (\frac{\lambda_i^ke^{-\lambda_i}}{k!})$\mbreak
+    $\displaystyle = \frac{e^{-\lambda_i}}{e^{-q_{ij}\lambda_i}}$
+    $ = e^{-\lambda_i\cdot(1-q_{ij})} $
+    $ = e^{-\lambda_i \cdot p_{ij}} $
+    $ = e^{-\lambda_i \cdot (\delta_{ij}p)}$ \mbreak
+    So,  $P(Inf(s_i, t_j)) = 1 - e^{-\lambda_i \cdot (\delta_{ij}p)} $ \mbreak
+    At the same time,\mbreak
+    $\displaystyle P(!Inf(s_{-i}, t_j)) = \prod_{\left\{l \ne i\right\}}\left[P(!Inf(s_a, t_j)) \right]$ \mbreak
+    $\displaystyle = \prod_{\left\{ a \ne i \right\}}\left[E(!Inf(s_{-i}, t_j))\right] $
+    $\displaystyle = \prod_{\left\{ a \ne i \right\}}\left[E(E(!Inf(s_{-i}, t_j)|K_i=k_i)) \right]$  \mbreak
+    $\displaystyle = \prod_{\left\{ a \ne i \right\}}\left[ E((1-\delta_{aj})q)^k )  \right]$\mbreak
+    $\displaystyle = \prod_{\left\{ a \ne i \right\}}\left[ \sum_{k=0}^{\infty}(q_{aj}(i))^k\frac{(\lambda_a\cdot f(d_{ia}))^ke^{-\lambda_a \cdot f(d_{ia})}}{k!}    \right] $
+    $\displaystyle = \prod_{\left\{ a \ne i \right\}}\left[ \frac{e^{-\lambda_a \cdot f(d_{ia})}}{e^{-q_{aj}\lambda_a f(d_{ia})}}  \right]$\mbreak
+    $\displaystyle = \prod_{\left\{ a \ne i \right\}}\left[ e^{-\lambda_a \cdot f(d_{ia}) p_{aj}}  \right]$
+    $\displaystyle = \prod_{\left\{ a \ne i \right\}}\left[ e^{-\lambda_a\cdot f(d_{ia}) \cdot (\delta_{aj}p) }  \right]$\mbreak
+    $\displaystyle = exp\left\{\sum_{\left\{ a \ne i \right\}}\left[p\lambda_a\delta_{ja}f(d_{ia})   \right] \right\}$ \mbreak
+    Therefore, for the probability of infection for a person located in $s_i$ at time $t_j$ we have: \mbreak
+    $\displaystyle 1-\left(e^{-\lambda_i \cdot (\delta_{ij}p)}\right) \left(
+        e^{\left\{\sum_{\left\{ a \ne i \right\}}\left[p\lambda_a\delta_{ja}f(d_{ia})   \right] \right\}}\right)
+     $ \mbreak
+
+    $\displaystyle = 1- exp\left\{-\delta_{ij}e^{\theta_{i}} - \sum_{\left\{ a \ne i  \right\}}
+        (f(d_{ia})\delta_{ia}e^{\theta_{a}})   \right\}$
+    , where $\theta_{v} = log(\lambda_{v}p)$
+
+\end{center}
+
+We define distance functions as below: 
+
+\begin{center}
+    $f(d_{ia}) = \rho \cdot (d_{ia})^{-\frac{1}{2}}$
+\end{center}
+
+The basic reproductive number, represented as $\mathcal{R}_0$, serves as an important quantity in epidemiology. 
+
+Actually the interpretation should be adapted to the specific problem, in this case, 2014 Ebola outbreak. $\mathcal{R}_0$ captures the expected amount of secondary infections caused by a single infectious person in a population that is entirely susceptible (S). 
+
+We use a method called ``the next generation matrix approach'' to calculate $\mathcal{R}_0$. This approach defines a matrix $G$ at first: $G_{i,a}(t_j)$ represents the expected number of the infections take place in location $s_i$ caused by an infected individual in area $s_a$ at time $t_j$.
+
+$\mathcal{R}_0$ equals to the dominant eigenvalue of the matrix $G$.
+
+When making effort to figure out the posterior distribution of the possibility of Ebola infection, or outspread, with the help of aforementioned spatial-temporal frameworks we can define the requisite:
+
+\begin{itemize}
+\item prior distributions (provided directly by user to the model)
+\item deterministic relationships among parameters
+\end{itemize}
+
+They help construct the requisite posterior distribution. 
+
+All the variables and parameters mentioned above have definitions as below:
+
+\begin{itemize}
+\item 
+$\{y_{ij} | I^*_{ij}\} \widesim{ind}\ g(I^*_{ij}, \Theta)$\\
+
+\item
+$\{E_{ij}^* | \pi^{SE}_{ij}, S_{ij} \} \widesim{ind}\ binom(S_{ij}, \pi^{SE}_{ij})$ \\
+
+\item
+$\{I_{ij}^* | \pi^{EI}, E_{ij} \} \widesim{ind}\ binom(E_{ij}, \pi^{EI})$\\
+
+\item
+$\{R_{ij}^* | \pi^{IR}, I_{ij}\} \widesim{ind}\ binom(I_{ij}, \pi^{IR})$\\
+
+\item
+$\gamma^{(IR)} \sim\ gamma(\alpha^{(IR)}, \beta^{(IR)})$\\
+
+\item
+$\gamma^{(EI)} \sim\ gamma(\alpha^{(EI)}, \beta^{(EI)})$\\
+
+\item
+$\left\{ \theta_{ij}\right\} \sim \mathcal{N}(\eta_{ij}, \sigma^2_{\theta})$ \\
+
+\item
+$\left\{ \beta \right\} \sim \mathcal{N}(0, \tau^2_\beta) $\\
+
+\item
+$\sigma^2_{\theta} \sim \Gamma(\alpha_\theta, \beta_\theta)$\\
+
+\item
+$\rho \sim U(0,1)$
+
+\end{itemize}
+
+
+Deterministic functions as follows: 
+\\
+\begin{itemize}
+\item $S = f_S(S_0, E^*_0, E^*)$ \\
+
+\item $E = f_E(E_0, I^*_0, E^*_0, E^*, I^*)$ \\
+
+\item $I = f_I(I_0, R^*_0, I^*_0, I^*, R^*)$ \\
+
+\item $R = f_R(R_0, R^*_0, R^*)$ \\
+
+\item $\displaystyle log(\pi^{SE}_{ij}) = -\delta_{ij}e^{\theta_{ij}} - \sum_{\left\{ a \ne i \right\}}d_{ia}\delta_{ia}e^{\theta_{ia}}$\\
+
+\item $\left\{\pi_{EI}  \right\} = 1-exp({-\gamma^{(EI)}})$\\
+
+\item $\left\{\pi_{IR}  \right\} = 1-exp({-\gamma^{(IR)}})$\\
+
+\item $d_{ia} = f(\rho, s_i, s_a)$\\
+
+\item $\delta_{ij} = \frac{I_{ij}}{N_{ij}}$ \\
+
+\item $\eta_{ij} = X_{ij}\beta$\mbreak
+
+\end{itemize}
+
+We will use those parameters and variables to derive posterior distributions and then get full conditional distributions of the probabilities afterwards. 
+
+
+
+\section{Experiments and Results}
+
+\subsection{Data Sources}
+
+%% This is written by Jackie, please pay extreme attention to grammar error.
+In order to fit our model to real world scenario, statistics about the number of patient confirmed suffered from Ebola in each area are necessary. The geographic relationship between each administrative division might also be required.
+
+Our data about the disease is obtained from the World Health Organization website 's data and statistics page. Other geographic data is obtained from "City Population" website[] whose data is acquired from official department within each country[][][].
+
+We collected the data from WHO as comma-separated value (CSV) files containing the count of new cases each day. We formated the geography relations and people density of each area based on the data and map showed on "City Population" website and verified it against original source. Notably, patient count showned on World Health Organization 's website is from two sources: situation report and patient database. According to World Health Organization, situation report have choose a more ``reliable'' method and have a better accuracy.\cite{whositrep}. Thus, we use data database for patient number before Nov.19 2014 (situation report only showed data after this date) and choose situation report for other dates. 
+
+These data provide rich reference for our model formulation, enable us to adjust the parameter of the model according to the real world situation and also give us oppounity to verify our model.
+
+\subsection{Algorithm and Implementation}
+
+As mentioned above, we need to estimate the factor of the distribution in a maximum likehood manner. In general, using a maximum likehood approach require us to calculate  the possibility of a certain value, which is rather hard in such a complex (and accurate) model. Because of the difficulty of calculating the real distribution of each parameter, we adopted the Metropolis-Hastings Algorithm\cite{besag1993spatial} to approach the real possibility distribution of each argument.
+
+The algorithm for SEIR model is implemented in libspatialSEIR
+
+\subsection{Environment}
+
+\subsection{Verification}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=5in]{"Guinea Verification".pdf}}
+\caption{Verification of model (Guinea)}
+\label{GuineaVerification}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=5in]{"Liberia Verification".pdf}}
+\caption{Verification of model (Liberia)}
+\label{LiberiaVerification}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=5in]{"Sierra Leone Verification".pdf}}
+\caption{Verification of model (Sierra Leone)}
+\label{SierraLeoneVerification}
+\end{figure}
+
+
+\section{Conclusion}
+
+\subsection{Spread of disease}
+
+Form the data collected by WTO, we trained our model and adjust each factor accordingly.
+
+As shown in Figure \ref{GuineaPrediction}, Figure \ref{LiberiaPrediction} and \ref{SierraLeonePrediction}, the spread of the disease is under control. Though the outbreak might not stop until the middle of the year.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=5in]{"Guinea Prediction".pdf}}
+\caption{Prediction from model: accumulated patient count (Guinea)}
+\label{GuineaPrediction}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=5in]{"Liberia Prediction".pdf}}
+\caption{Prediction from model: accumulated patient count (Liberia)}
+\label{LiberiaPrediction}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=5in]{"Sierra Leone Prediction".pdf}}
+\caption{Prediction from model: accumulated patient count (Sierra Leone)}
+\label{SierraLeonePrediction}
+\end{figure}
+
+%%
+
+This study also shown that the disease is controlled greatly due to the help from newly built treatment center.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=5in]{"Guinea Prediction(num)".pdf}}
+\caption{Prediction from model: weekly patient count (Guinea)}
+\label{GuineaPrediction2}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=5in]{"Liberia Prediction(num)".pdf}}
+\caption{Prediction from model: weekly patient count (Liberia)}
+\label{LiberiaPrediction2}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=5in]{"Sierra Leone Prediction(num)".pdf}}
+\caption{Prediction from model: weekly patient count (Sierra Leone)}
+\label{SierraLeonePrediction2}
+\end{figure}
+
+\subsection{Isolation?}
+
+\subsection{Medication}
+
+\section{Letter}%Totally useless haha
+
+To whom it may concern, 
+
+    After hearing about the exciting news that your association has developed a new kind of medication which are effective in curing and preventing Ebola disease, we are eager to use our modeling knowledge to help the association with the subsequent projects. 
+    It is widely known that Ebola has broken out in the year 2014 and has been assaulting African people till now. So we first make a prediction about the cease time point of Ebola virus disease, making use of the statistics collected from World Health Organization. We predict that Ebola might stop its decimation in June or July, 2015. Besides, we have made a model on predicting future increase of newly infected people, and we predict that when the epidemic situation get to an end in the middle of 2015, there may be () more people infected by Ebola virus disease, and the specific statistics goes down to three countries are: Guinea () cases, Liberia () cases, and Sierra Leone () cases. After serious consideration, we decide to give our suggestion on the site selection of medical center that your association will set in the epidemic areas sooner or later. Since these days Ebola disease has been minimizing its power and the number of newly increased cases is somehow declining, it is much easier now for you to manufacture medicine and vaccines than during the most terrible months in 2014. This means that only one medical center is needed as the 
+
+
+
+
+
+
+
+\medskip
+
+\bibliographystyle{unsrt}%Used BibTeX style is unsrt
+\bibliography{main}
+
+\end{document}
