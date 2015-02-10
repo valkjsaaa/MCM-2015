@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 % Useful math stuff in amsmath
 \usepackage{amsmath}
 \usepackage{latexsym}
@@ -13,7 +13,7 @@
 % Tweak the headings
 \pagestyle{myheadings}
 \renewcommand{\thepage}{Page \arabic{page}}
-\newcommand{\pagetop}{Team \# 39984}
+\newcommand{\pagetop}{Team \# 39984} %\pagetop to cite it
 \setlength{\headsep}{0.4in}
 \markboth{\pagetop}{\pagetop}
 %
@@ -72,7 +72,7 @@ The Ebola virus disease (EVD) Figure, also called the Ebola Hemorrhagic Fever (E
 
 As an widespread epidemic, Ebola has some distinguishing features. For instance, Ebola mainly exists in patients' body fluids, and could only spread by direct contact with the blood or body fluids of a person who has developed symptoms of the disease. The transmission might indicate that Ebola is more likely to break out in damp locations. 
 
-Ebola is not infectious during its incubation period. %[wikipediahttps://en.wikipedia.org/wiki/Ebola_virus_disease#Transmission, citation 29, 30, 31]
+Ebola is not infectious during its incubation period \cite{pmid25373801, Transmission, pmid25347231}. 
 Therefore, it is quite easy to slow down the spread, or even stop it, once good medical and isolating conditions are provided. What's more, the disease shouldn't be so lethal as it appears to be in Africa these days.
 
 However, unlike the developed countries and regions, Africa has extremely limited medical conditions, such as the backward facilities, the shortage of medicine, and the lack of essential medical knowledge. What makes the condition even worse is that, the average living standard in Africa is too poor to keep the population in good health. That many of the African countries are in short of grain is well-known throughout the world.
@@ -530,7 +530,7 @@ The modeling environment is on a Unix-like Intel-Mackintosh environment with bas
 
 We have conducted a simple experiment on our model training program to test the functionality of model building algorithm and the model its self. As shown in Figure \ref{GuineaVerification}, Figure \ref{LiberiaVerification} and Figure \ref{SierraLeoneVerification}, data point before predicted line is given to the program and the model. Then only the initial data is given to the trained model. All the data point shown in the figure is produced by the model. In general, the verification showed excellent accuracy.
 
-Interestingly, those figures also showed that human intervention is also fundamental to disease prediction. The increase of medical condition in West Africa force the disease to decrease at the end of 2014, whose showed no sign before October. As a result, some error is acceptable.
+Interestingly, those figures also showed that human intervention is also fundamental to disease prediction. The increase of medical condition in West Africa force the disease to decrease at the end of 2014, whose showed no sign before new year. As a result, some error is acceptable.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=5in]{"Guinea Verification".pdf}}
@@ -555,9 +555,14 @@ Interestingly, those figures also showed that human intervention is also fundame
 
 \subsection{Spread of disease}
 
-Form the data collected by WTO, we trained our model and adjust each factor accordingly.
+Derived from the whole data set about Ebola collected by WHO, we trained our model, adjusting each factor accordingly, and finally made a series of future predictions by simulating the outspread of Ebola.
 
-As shown in Figure \ref{GuineaPrediction}, Figure \ref{LiberiaPrediction} and \ref{SierraLeonePrediction}, the spread of the disease is under control. Though the outbreak might not stop until the middle of the year.
+As is shown in Figure \ref{GuineaPrediction}, Figure \ref{LiberiaPrediction} and \ref{SierraLeonePrediction}, fortunately, the spread of the terrible epidemic is gradually getting under control. Though the temporary outbreak might not stop until the middle of this year (2015), we are confident in conquering the disease.
+
+Our model, U-SEIR, is able to predict the spreading trend of Ebola really successfully.
+
+However, when the outbreak is effected by external factors and the parameters are therefore changed vastly, U-SEIR might fail to follow the changing. It means that our powerful U-SEIR could probably be further promoted to be more supportive to rapid changes of the conditions. This promotion means that the parameters are changed from constant variables that remain the same, to be time-varying dynamic variables. 
+
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=5in]{"Guinea Prediction".pdf}}
@@ -674,7 +679,7 @@ Combining the two figures (Figure \ref{DistanceTable}, Figure \ref{PredictionTab
 \item $Cost = k\sum Dist\cdot nCases$\\
 \end{center}
 
-Where $k$ is a constant parameter that we do not care in this experiment (take $S_i$ as an example); $Cost$ is the total cost of building the center in a chosen place; $Dist$ is the distance between the medical center and any location requesting for medical aids; $nCases$.
+Where $k$ is the amount of money spent on sending the medications for an individual traveling through one unit of distance, a constant parameter that we neither know nor care in this experiment actually (take $S_i$ as an example); $Cost$ is the total cost of building the center in a chosen place; $Dist$ is the distance between the medical center ($S_i$) and any location requesting for medical aids (take $S_j$ for instance); $nCases$ is the amount of medications required by the corresponding location (also $S_j$, in other words).
 
 Then the total cost of the three location choices are as shown in Figure \ref{CostTable}.
 
@@ -694,21 +699,23 @@ In conclusion, Sierra Leone is the best choice to place the medical center, and 
 
 \section{Letter to the World Medical Association}%Totally useless haha
 
- \begin{letter}{``recipient''}
 
 To whom it may concern, \\
 
     After hearing about the exciting news that your association has developed a new kind of medication which are effective in curing and preventing Ebola disease, we are eager to use our modeling knowledge to help the association with the subsequent projects. 
     
-    It is widely known that Ebola has broken out in the year 2014 and has been assaulting African people till now. So we first make a prediction about the cease time point of Ebola virus disease, making use of the statistics collected from World Health Organization. We predict that Ebola might stop its decimation by the end of 2015. Besides, we have made a model on predicting future increase of newly infected people, and we predict that in a half year period, there may be about 2134 more people infected by Ebola virus disease, and the specific statistics goes down to three countries are: Guinea 703 cases, Liberia 346 cases, and Sierra Leone 1085 cases. After serious consideration, we decide to give our suggestion on the site selection of medical center that your association will set in the epidemic areas sooner or later. Since these days Ebola disease has been minimizing its power and the number of newly increased cases is somehow declining, it is much easier now for you to manufacture medicine and vaccines than during the most terrible months in 2014. This means that only one medical center is needed as the efficiency may be augmented once delivery projects are assembled at a specific location so as to cut off those unnecessary expense on traffic and transport. What's more, it is obvious that the medical center's site should relate to the most seriously infected area, where the number of individuals is superior to other areas to some extent. In addition, the expense on traffic should also be considered when selecting the site. 
+    It is widely known that Ebola has broken out in the year 2014 and has been assaulting African people till now. So we first make a prediction about the cease time point of Ebola virus disease, making use of the statistics collected from World Health Organization. We predict that Ebola might stop its decimation by the end of 2015. Besides, we have made a model on predicting future increase of newly infected people, and we predict that in a half year period, there may be about 2134 more people infected by Ebola virus disease, and the specific statistics goes down to three countries are: Guinea 703 cases, Liberia 346 cases, and Sierra Leone 1085 cases.
     
-    Now it comes to the dispensation of vaccine and drug. In your association's announcement your developed medication contains two kinds of medical products, vaccine and drug. We all know that vaccine can effectively decrease the number of people who are likely to be infected. So as we boldly predict, if vaccine is put into use from now on, the number of infected people will cut off by (). As for drug, since till now the number of newly infected people has been slightly decreasing and the pressure on the pharmaceutical factory affiliated to your association will not be too high. As a matter of fact, we believe that your association has the ability to manufacture adequate drug for every single patient, so you can try to follow our model's prediction and distribute drug rationally according to the increase pattern of infected individuals in diverse areas.
+    After serious consideration, we decide to give our suggestion on the site selection of medical center that your association will set in the epidemic areas sooner or later.
     
+    Since these days Ebola disease has been minimizing its power and the number of newly increased cases is somehow declining, it is much easier now for you to manufacture medicine and vaccines than during the most terrible months in 2014. This means that only one medical center is needed as the efficiency may be augmented once delivery projects are assembled at a specific location so as to cut off those unnecessary expense on traffic and transport. What's more, it is obvious that the medical center's site should relate to the most seriously infected area, where the number of individuals is superior to other areas to some extent. In addition, the expense on traffic should also be considered when selecting the site. 
     
-
-
-
-\end{letter}
+    Now it comes to the dispensation of vaccine and drug. In your association's announcement your developed medication contains two kinds of medical products, vaccine and drug. We all know that vaccine can effectively decrease the number of people who are likely to be infected. So as we boldly predict, if vaccine is put into use from now on, the number of infected people will cut off by 1259, with Guinea 392, Liberia 191, Sierra Leone 676 respectively. As for drug, since till now the number of newly infected people has been slightly decreasing and the pressure on the pharmaceutical factory affiliated to your association will not be too high. As a matter of fact, we believe that your association has the ability to manufacture adequate drug for every single patient, so you can try to follow our model's prediction and distribute drug rationally according to the increase pattern of infected individuals in diverse areas.
+    
+    In a word, your association has made magnificent contribution to medical academic world as well as brought living hope to the African people struggling against pain and death. We are sure that your association will help decrease the death resulted by Ebola to a great extent. We are looking forward to hearing good news from you. Our advice, if proved to be useful, may accelerate your process of eradicating the Ebola virus disease, and we will also keep our pace to dedicate more into modeling so as to try our best to provide further assistance. 
+\\    
+\\   
+Sincerely, \pagetop
 
 
 \medskip
